@@ -39,5 +39,5 @@ It helps users record, manage, and analyze their daily expenses — designed to 
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/<your-username>/expense-tracker-php.git
+   git clone https://github.com/Skyakas990/expense-tracker-php.git
    cd expense-tracker-php
