@@ -9,7 +9,9 @@
 </footer>
 
 <!-- <script src="./jquery-3.6.1.min.js"></script> -->
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -36,6 +38,7 @@
               $('#row-' + id).fadeOut(400, function() {
                 $(this).remove();
               });
+              refreshChartData();
             } else {
               alert('Delete failed: ' + res.message);
             }
@@ -69,6 +72,7 @@
 
             // 👇 THIS opens the modal
             $('#editModal').modal('show');
+
           } else {
             alert('Could not fetch expense details.');
           }
@@ -99,7 +103,7 @@
 
           // Inside your AJAX success function:
           const formattedDate = formatDateDMY($('#expense_date').val());
-          
+
           if (res.success) {
             const id = $('#editId').val();
             const row = $('#row-' + id);
@@ -112,6 +116,7 @@
 
             $('#editModal').modal('hide');
             // $('.modal-backdrop').remove();
+            refreshChartData();
 
           } else {
             alert('Update Failed' + res.message);
@@ -133,6 +138,68 @@
       maxDate: "today",
     });
 
+    // Chart.js initialization
+    const ctx = document.getElementById('expenseChart').getContext('2d');
+    const expenseData = <?= json_encode($chartData); ?>;
+    let myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: expenseData.map(item => item.category),
+        datasets: [{
+          label: 'Expenses by Category',
+          data: expenseData.map(item => parseFloat(item.total)),
+          borderWidth: 1,
+          backgroundColor: [
+            '#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'
+          ],
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          title: {
+            display: true,
+            text: 'Your Spending Breakdown'
+          }
+        }
+      }
+    });
+
+    // Refresh chart dynamically
+    function refreshChartData() {
+      $.ajax({
+        url: 'expense.php?ajax=1',
+        method: 'GET',
+        dataType: 'json',
+        success: function(response) {
+          const labels = response.map(item => item.category);
+          const data = response.map(item => item.total);
+
+          myChart.data.labels = labels;
+          myChart.data.datasets[0].data = data;
+          myChart.update({
+            duration: 500,
+            easing: 'easeOutBounce'
+          });
+        },
+        error: function(xhr, status, error) {
+          console.error('Error fetching chart data:', status, error);
+        }
+      });
+    }
+
+    // Helper to format date
+    function formatDateDMY(dateStr) {
+      const date = new Date(dateStr);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    }
   });
 </script>
 </body>

@@ -37,5 +37,4 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     </form>
     <p class="mt-3">Don't have an account? <a href="register.php">Register</a></p>
 </div>
-
 <?php include("./includes/footer.php")?>

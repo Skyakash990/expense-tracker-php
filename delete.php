@@ -13,7 +13,6 @@ if (!$id) {
     echo json_encode(["success" => false, "message" => "ID not provided"]);
     exit;
 }
-
 $stmt = $con->prepare("DELETE FROM expenses WHERE id = ? AND user_id = ?");
 $stmt->bind_param("ii", $id, $user_id);
 $success = $stmt->execute();

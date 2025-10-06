@@ -75,6 +75,18 @@ if (session_status() === PHP_SESSION_NONE) {
       display: none;
       /* Chrome, Safari, Opera */
     }
+
+    #chart-container {
+      width: 900px;
+      /* desired width */
+      height: 300px;
+      /* desired height */
+    }
+
+    #expenseChart {
+      width: 500px;
+      height: 500px;
+    }
   </style>
 </head>
 

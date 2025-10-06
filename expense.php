@@ -19,12 +19,40 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
+$chartData = [];
+$sql = "SELECT c.name AS category, SUM(e.amount) AS total
+        FROM expenses e
+        JOIN categories c ON e.category_id = c.id
+        WHERE e.user_id = ?
+        GROUP BY c.name";
+$stmt = $con->prepare($sql);
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$res = $stmt->get_result();
+
+while ($row = $res->fetch_assoc()) {
+    $row['total'] = floatval($row['total']); // ensure numeric
+    $chartData[] = $row;
+}
+
+// If called via AJAX, return JSON
+if (isset($_GET['ajax'])) {
+    header('Content-Type: application/json');
+    echo json_encode($chartData);
+    exit;
+}
+
 ?>
 <!-- <h1>Welcome to expense tracker</h1> -->
 <div class="d-flex justify-content-between mb-3">
-    <h2>Your Expenses</h2>
+    <h2 class="text-success">Your Expenses</h2>
     <a href="create.php" class="btn btn-success">+ Add Expense</a>
 </div>
+<div id="chart-container" class="container my-4 mb-5">
+    <h4 class="mb-3 text-center">Expense Summary by Category</h4>
+    <canvas id="expenseChart"></canvas>
+</div>
+
 <table class="table table-bordered user-select-none table-striped">
     <thead class="table-dark">
         <tr>
@@ -43,7 +71,7 @@ $result = $stmt->get_result();
                 <td>&#8377;<?= $row['amount'] ?></td>
                 <td><?= date("d-m-Y", strtotime($row['expense_date'])) ?></td>
                 <td><?= htmlspecialchars($row['note']) ?></td>
-                <td><?= htmlspecialchars( $row['payment_mode']) ?></td>
+                <td><?= htmlspecialchars($row['payment_mode']) ?></td>
                 <td>
                     <button class="btn btn-sm btn-warning edit-btn" data-id="<?= $row['id'] ?>">Edit</button>
                     <button class="btn btn-sm btn-danger delete-btn" data-id="<?= $row['id'] ?>">Delete</button>

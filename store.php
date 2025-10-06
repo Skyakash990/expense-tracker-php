@@ -14,6 +14,7 @@ $expense_date = $_POST['expense_date'];
 $payment_mode = $_POST['pay_mode'];
 $note=$_POST['note'];
 
+
 $stmt=$con->prepare("INSERT INTO expenses (user_id,category_id,amount,expense_date,note,payment_mode) VALUES (?,?,?,?,?,?)");
 $stmt->bind_param("iidsss",$user_id,$category_id,$amount,$expense_date,$note,$payment_mode);
 if($stmt->execute()){

@@ -18,7 +18,6 @@ if($_SERVER["REQUEST_METHOD"]==='POST'){
     }
 }
 ?>
-
 <div class="card p-4 shadow">
     <h2 class="mb-3">Register</h2>
     <?php if (isset($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>

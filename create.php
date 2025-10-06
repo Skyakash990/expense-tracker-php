@@ -10,7 +10,6 @@ if(!isset($_SESSION['user_id'])){
 
 $catResult = $con->query("SELECT * FROM categories ORDER BY name ASC");
 ?>
-
 <h2>Add New Expense</h2>
 <form action="store.php" method="post">
     <div class="mb-3">

@@ -12,6 +12,7 @@ include("./includes/header.php");
   </section>
 
   <!-- Features Section -->
+  
    <?php if (isset($_SESSION['user_id'])): ?>
   <section class="py-5">
     <div class="container">

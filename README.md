@@ -34,7 +34,6 @@ It helps users record, manage, and analyze their daily expenses — designed to 
 
 
 ---
-
 ## ⚙️ Installation Guide
 
 1. **Clone the repo**
