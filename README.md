@@ -30,11 +30,12 @@ It helps users record, manage, and analyze their daily expenses — designed to 
 
 ---
 
+<img width="1893" height="869" alt="sss" src="https://github.com/user-attachments/assets/070acaf5-71f2-4266-911d-0fd025c88581" />
+
 ## 📂 Project Structure
 
 
 
----
 ## ⚙️ Installation Guide
 
 1. **Clone the repo**
