@@ -15,6 +15,7 @@ It helps users record, manage, and analyze their daily expenses — designed to 
 ✅ AJAX-based updates and deletions (no page reloads)  
 ✅ Responsive Bootstrap 5 UI  
 ✅ Secure with PHP Sessions & Prepared Statements  
+✅ Added Chart.js for show Expenses in chart view  
 
 ---
 
